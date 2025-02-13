@@ -771,10 +771,11 @@ class MAG0(MAG0_base):
         # add variable attribute metadata
         encoding = {}
         for v in self.output_vars:
-            ds[v].attrs['units'] = self.units[v]
-            ds[v].attrs['long_name'] = 'fake_long_name'
-            dtpe = np.int32 if v in self.integer_vars else np.float32
-            encoding[v] = {"dtype":dtpe,"zlib": True, "complevel": 4}
+            if v in ds:
+                ds[v].attrs['units'] = self.units[v]
+                ds[v].attrs['long_name'] = 'fake_long_name'
+                dtpe = np.int32 if v in self.integer_vars else np.float32
+                encoding[v] = {"dtype":dtpe,"zlib": True, "complevel": 4}
 
         # add global attribute metadata
         ds.attrs={'Conventions':'CF-1.6', 'title':'MAG0 model output', 'summary':''}
